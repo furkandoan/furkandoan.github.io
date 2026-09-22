@@ -1,0 +1,273 @@
+---
+import "../styles/final.css";
+import research from "../data/research.json";
+
+const selectedResearch = research.slice(0, 3);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <meta
+      name="description"
+      content="Furkan Doğan — economist working on market design, matching theory, and allocation."
+    />
+
+    <title>Furkan Doğan — Economist</title>
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <a class="brand" href="/final">Furkan Doğan</a>
+
+        <nav aria-label="Primary navigation">
+          <a href="#research">Research</a>
+          <a href="#writing">Writing</a>
+          <a href="#teaching">Teaching</a>
+          <a href="/furkan-dogan-cv.pdf">CV ↗</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="kicker">Economics · Market Design</p>
+
+            <h1>Furkan Doğan</h1>
+
+            <p class="hero-statement">
+              I study how allocation systems can be designed when preferences,
+              priorities, and constraints interact.
+            </p>
+
+            <p class="hero-detail">
+              My work lies at the intersection of market design, matching theory,
+              mechanism design, and constrained allocation.
+            </p>
+
+            <div class="hero-links">
+              <a href="#research">Selected research</a>
+              <a href="#writing">Writing</a>
+              <a href="/furkan-dogan-cv.pdf">CV ↗</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="research">
+          <div class="section-head">
+            <h2 class="section-kicker">Selected research</h2>
+
+            <p class="section-intro">
+              Work on fairness, priorities, feasibility, and the structure of
+              allocation mechanisms.
+            </p>
+          </div>
+
+          <div class="research-layout">
+            <div class="research-list">
+              {
+                selectedResearch.map((paper, index) => (
+                  <article
+                    class="paper"
+                    data-paper={index + 1}
+                    tabindex="0"
+                  >
+                    <div>
+                      <h3 class="paper-title">{paper.title}</h3>
+
+                      {paper.authors && (
+                        <p class="paper-authors">{paper.authors}</p>
+                      )}
+
+                      {paper.summary && (
+                        <p class="paper-summary">{paper.summary}</p>
+                      )}
+                    </div>
+
+                    <div class="paper-meta">
+                      <div>{paper.meta}</div>
+
+                      {paper.href && (
+                        <a href={paper.href}>Paper ↗</a>
+                      )}
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+
+            <aside
+              class="research-visual"
+              id="allocationField"
+              data-state="default"
+              aria-label="Matching structure responding to selected research"
+            >
+              <p class="visual-label">Matching structure</p>
+
+              <svg
+                class="allocation-svg"
+                viewBox="0 0 360 230"
+                role="img"
+                aria-label="Abstract matching structure"
+              >
+                <path class="guide" d="M78 20 V210" />
+                <path class="guide" d="M282 20 V210" />
+
+                <path
+                  class="match p1 signal"
+                  d="M80 44 C145 44 205 63 280 70"
+                />
+
+                <path
+                  class="match p2"
+                  d="M80 88 C148 88 210 148 280 160"
+                />
+
+                <path
+                  class="match p3"
+                  d="M80 132 C145 132 210 105 280 105"
+                />
+
+                <path
+                  class="match ghost"
+                  d="M80 176 C150 176 207 184 280 190"
+                />
+
+                <circle class="node" cx="80" cy="44" r="5" />
+                <circle class="node" cx="80" cy="88" r="5" />
+                <circle class="node" cx="80" cy="132" r="5" />
+                <circle class="node" cx="80" cy="176" r="5" />
+
+                <circle class="node" cx="280" cy="70" r="5" />
+                <circle class="node" cx="280" cy="105" r="5" />
+                <circle class="node" cx="280" cy="160" r="5" />
+                <circle class="node" cx="280" cy="190" r="5" />
+              </svg>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section" id="writing">
+          <div class="section-head">
+            <h2 class="section-kicker">Writing</h2>
+
+            <p class="section-intro">
+              Essays and working notes that sit beside the formal research —
+              sometimes technical, sometimes broader.
+            </p>
+          </div>
+
+          <div class="writing-list">
+            <div class="writing-entry">
+              <span class="writing-date">Sep 2026</span>
+
+              <span class="writing-title">
+                Allocation is a design problem
+              </span>
+
+              <span class="writing-kind">Essay</span>
+            </div>
+
+            <div class="writing-entry">
+              <span class="writing-date">Aug 2026</span>
+
+              <span class="writing-title">
+                Notes on ranks, priorities, and fairness
+              </span>
+
+              <span class="writing-kind">Research note</span>
+            </div>
+
+            <div class="writing-entry">
+              <span class="writing-date">Jul 2026</span>
+
+              <span class="writing-title">
+                When local choices affect global feasibility
+              </span>
+
+              <span class="writing-kind">Note</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section closing-section">
+          <div class="closing-grid">
+            <div class="closing-block">
+              <p class="closing-label">Research in practice</p>
+
+              <h2>
+                Allocation problems do not stop at the model.
+              </h2>
+
+              <p>
+                Some of my work connects theoretical allocation questions with
+                operational systems, particularly in higher education and
+                geographically constrained scheduling.
+              </p>
+
+              <a href="#">Selected applied work →</a>
+            </div>
+
+            <div class="closing-block" id="teaching">
+              <p class="closing-label">Teaching</p>
+
+              <h2>
+                Economics, mathematics, and market design.
+              </h2>
+
+              <p>
+                Courses, lecture notes, and teaching materials in economics,
+                mathematics, mechanism design, and related topics.
+              </p>
+
+              <a href="#">Teaching →</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>© 2026 Furkan Doğan</span>
+
+        <div class="footer-links">
+          <a href="mailto:furkandoann@gmail.com">Email</a>
+          <a href="/furkan-dogan-cv.pdf">CV</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const field = document.querySelector("#allocationField");
+      const papers = document.querySelectorAll("[data-paper]");
+
+      papers.forEach((paper) => {
+        const state = paper.getAttribute("data-paper");
+
+        const activate = () => {
+          if (!field) return;
+
+          const states = {
+            "1": "one",
+            "2": "two",
+            "3": "three",
+          };
+
+          field.setAttribute("data-state", states[state] || "default");
+        };
+
+        const reset = () => {
+          field?.setAttribute("data-state", "default");
+        };
+
+        paper.addEventListener("mouseenter", activate);
+        paper.addEventListener("mouseleave", reset);
+        paper.addEventListener("focusin", activate);
+        paper.addEventListener("focusout", reset);
+      });
+    </script>
+  </body>
+</html>
