@@ -1,26 +1,30 @@
 [
   {
-    "index": "01",
-    "meta": "Submitted · 2026",
-    "title": "The Worst-Rank Frontier in Discrete Resource Allocation",
-    "authors": "with Cemil Dibek and Özgür Yılmaz",
-    "summary": "We study how fairness and ordinal efficiency constrain the worst rank that can receive positive probability in a random assignment.",
-    "href": "research/worst-rank-frontier.pdf"
-  },
-  {
-    "index": "02",
-    "meta": "Revision submitted · 2026",
     "title": "Many-to-many Matching with Cluster-Approximated Spatial Constraints",
-    "authors": "with Ömer Faruk Şahin and Özgür Yılmaz",
-    "summary": "We characterize when spatially constrained allocations can be completed and design a flow-based, completion-preserving priority mechanism.",
-    "href": "research/spatial-constraints.pdf"
+    "authors": "with Özgür Yılmaz and Ömer Faruk Şahin",
+    "meta": "Revise and Resubmit",
+    "summary": "We characterize when spatially constrained many-to-many allocations remain completable, develop a maximum-flow feasibility test, and propose a completion-preserving priority mechanism that delivers feasible, Pareto-efficient, and stable allocations.",
+    "href": "/research/spatial-constraints.pdf"
   },
   {
-    "index": "03",
-    "meta": "Work in progress",
+    "title": "The Worst-Rank Frontier in Discrete Resource Allocation: No-Envy, Ordinal Efficiency, and Probabilistic Serial",
+    "authors": "with Özgür Yılmaz",
+    "meta": "Submitted",
+    "summary": "We characterize the smallest worst rank compatible with no-envy and ordinal efficiency, derive sharp rank-loss bounds, and show that Probabilistic Serial can lie far from the optimal no-envy, efficiency, and joint frontiers.",
+    "href": "/research/worst-rank-frontier.pdf"
+  },
+  {
     "title": "Equitable Affirmative Action in School Choice",
     "authors": "with Özgür Yılmaz",
-    "summary": "We study equitable random allocation under reserve categories, asking when Lorenz-dominant allocations can respect category-specific priorities.",
+    "meta": "Work in Progress",
+    "summary": "Ongoing work on the design of equitable affirmative-action policies in school choice.",
+    "href": null
+  },
+  {
+    "title": "Is the Weighted Sum a Meritocratic Method? A Mechanism Design Approach to Research Assistant Recruitment in Turkey",
+    "authors": null,
+    "meta": "Work in Progress",
+    "summary": "A mechanism-design perspective on weighted-score recruitment, asking when aggregate scoring can meaningfully be interpreted as meritocratic.",
     "href": null
   }
 ]
