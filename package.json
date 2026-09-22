@@ -1,0 +1,20 @@
+{
+  "name": "furkan-dogan-homepage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/allocation.test.mjs",
+    "start": "node scripts/serve-preview.mjs"
+  },
+  "dependencies": {
+    "astro": "7.3.3"
+  }
+}

@@ -1,0 +1,86 @@
+---
+import { agents, slots, committed, complete, blocked } from "../data/allocation.mjs";
+const label = (id: string) => id[0] + ({ "1": "₁", "2": "₂", "3": "₃" }[id[1]] || "");
+const ys = [48, 90, 138, 180, 228, 270];
+const edgePath = (agent: string, assignment: Record<string, string>) => {
+  const slot = assignment[agent];
+  const port = agents.filter((a) => assignment[a] === slot).indexOf(agent);
+  const end = 68 + slots.indexOf(slot) * 80 + port * 24;
+  const start = ys[agents.indexOf(agent)];
+  return `M112 ${start} C230 ${start} 305 ${end} 427 ${end}`;
+};
+---
+<figure class="allocation" data-allocation data-state="complete" aria-labelledby="allocation-title">
+  <div class="allocation__heading">
+    <span id="allocation-title">The geometry of a choice</span>
+    <span>6 agents / 3 slots</span>
+  </div>
+  <svg class="allocation__network" viewBox="0 0 520 305" aria-hidden="true">
+    <g class="allocation__clusters">
+      <path d="M26 34h10v70H26 M26 124h10v70H26 M26 214h10v70H26" />
+      <text x="7" y="73">A</text><text x="7" y="163">B</text><text x="7" y="253">C</text>
+    </g>
+    <g class="allocation__edges">
+      {Object.keys(committed).map((a) => <path class="edge edge--committed" d={edgePath(a, complete)} />)}
+      {[{ state: "complete", assignment: complete }, { state: "blocked", assignment: blocked }].map(({ state, assignment }) => (
+        <g class={`state-${state}`}>
+          {agents.filter((a) => !committed[a as keyof typeof committed] && assignment[a as keyof typeof assignment]).map((a) => (
+            <path class:list={["edge", a === "b2" ? "edge--decision" : "edge--completion"]} d={edgePath(a, assignment)} />
+          ))}
+        </g>
+      ))}
+    </g>
+    <g class="allocation__agents">
+      {agents.map((a, i) => <g transform={`translate(105 ${ys[i]})`} class:list={[a === "c2" && "agent--last"]}>
+        <circle r="7" /><text x="-34" y="6">{label(a)}</text>
+      </g>)}
+    </g>
+    <g class="allocation__slots">
+      {slots.map((s, i) => <g transform={`translate(434 ${80 + i * 80})`}>
+        <rect x="-7" y="-19" width="14" height="14" />
+        <rect x="-7" y="5" width="14" height="14" class:list={[i === 2 && "port--last"]} />
+        <text x="24" y="6">{label(s)}</text>
+      </g>)}
+    </g>
+  </svg>
+  <div class="allocation__matrix" aria-hidden="true">
+    <div class="matrix__header"><span>cluster / agent</span>{slots.map((s) => <span>{label(s)}</span>)}</div>
+    {agents.map((a, i) => <div class:list={["matrix__row", i % 2 === 0 && "matrix__row--cluster-start"]}>
+      <span><b>{i % 2 === 0 ? a[0].toUpperCase() : ""}</b>{label(a)}</span>
+      {slots.map((s) => <i class:list={[
+        complete[a as keyof typeof complete] === s && "filled-complete",
+        blocked[a as keyof typeof blocked] === s && "filled-blocked",
+        a === "b2" && "matrix-decision",
+      ]} />)}
+    </div>)}
+    <div class="matrix__capacity"><span>capacity used</span><span>2/2</span><span>2/2</span><span><span class="state-complete">2/2</span><span class="state-blocked">1/2</span></span></div>
+  </div>
+  <div class="allocation__legend" aria-hidden="true">
+    <span><i class="legend-fixed"></i>fixed</span><span><i class="legend-choice"></i>choice</span><span><i class="legend-rest"></i>completion</span>
+  </div>
+  <figcaption class="allocation__caption">
+    <span class="allocation__caption-index">Fig. 01</span>
+    <span id="allocation-result" aria-live="polite" aria-atomic="true">
+      <span class="state-complete">b₂ → s₃ leaves room for both C agents. All six agents can be assigned.</span>
+      <span class="state-blocked">b₂ → s₂ is locally feasible, but leaves only s₃ for C. At most one C agent can be assigned.</span>
+    </span>
+  </figcaption>
+  <button type="button" class="allocation__toggle" aria-pressed="false" aria-controls="allocation-result" data-allocation-toggle hidden>Compare the local choice <span aria-hidden="true">⇄</span></button>
+  <details class="allocation__rules">
+    <summary>Read the constraints</summary>
+    <p>A constructed example: each agent needs one slot; each slot has capacity two and accepts at most one agent from each cluster (A, B, C). All agents are eligible for all slots.</p>
+    <p>Hold a₁ → s₁, a₂ → s₂, b₁ → s₁ fixed. Then compare the two choices for b₂. Solid black lines are fixed assignments; the red line is the choice; dashed lines show a possible continuation.</p>
+  </details>
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-allocation]").forEach((figure) => {
+    const button = figure.querySelector<HTMLButtonElement>("[data-allocation-toggle]");
+    if (!button) return;
+    button.hidden = false;
+    button.addEventListener("click", () => {
+      const blocked = figure.dataset.state !== "blocked";
+      figure.dataset.state = blocked ? "blocked" : "complete";
+      button.setAttribute("aria-pressed", String(blocked));
+    });
+  });
+</script>

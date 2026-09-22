@@ -1,0 +1,26 @@
+[
+  {
+    "index": "01",
+    "meta": "Submitted · 2026",
+    "title": "The Worst-Rank Frontier in Discrete Resource Allocation",
+    "authors": "with Cemil Dibek and Özgür Yılmaz",
+    "summary": "We study how fairness and ordinal efficiency constrain the worst rank that can receive positive probability in a random assignment.",
+    "href": "research/worst-rank-frontier.pdf"
+  },
+  {
+    "index": "02",
+    "meta": "Revision submitted · 2026",
+    "title": "Many-to-many Matching with Cluster-Approximated Spatial Constraints",
+    "authors": "with Ömer Faruk Şahin and Özgür Yılmaz",
+    "summary": "We characterize when spatially constrained allocations can be completed and design a flow-based, completion-preserving priority mechanism.",
+    "href": "research/spatial-constraints.pdf"
+  },
+  {
+    "index": "03",
+    "meta": "Work in progress",
+    "title": "Equitable Affirmative Action in School Choice",
+    "authors": "with Özgür Yılmaz",
+    "summary": "We study equitable random allocation under reserve categories, asking when Lorenz-dominant allocations can respect category-specific priorities.",
+    "href": null
+  }
+]
