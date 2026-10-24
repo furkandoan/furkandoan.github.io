@@ -1,30 +1,68 @@
 [
   {
+    "id": "spatial-matching",
     "title": "Many-to-many Matching with Cluster-Approximated Spatial Constraints",
     "authors": "with Özgür Yılmaz and Ömer Faruk Şahin",
-    "meta": "Revise and Resubmit",
-    "summary": "We characterize when spatially constrained many-to-many allocations remain completable, develop a maximum-flow feasibility test, and propose a completion-preserving priority mechanism that delivers feasible, Pareto-efficient, and stable allocations.",
-    "href": "/research/spatial-constraints.pdf"
+    "category": "forthcoming",
+    "status": "Forthcoming",
+    "journal": "The Scandinavian Journal of Economics",
+    "jobMarketPaper": true,
+    "featured": true,
+    "summary": "We characterize when spatially constrained many-to-many allocations remain completable and use a maximum-flow test to construct completion-preserving assignments.",
+    "longSummary": "We study many-to-many matching with exact demands and quotas under spatial composition constraints. The paper characterizes completable partial allocations through cluster-based Hall inequalities, implements the completion test using maximum flow, and introduces a completion-preserving priority mechanism. Simulations calibrated to pharmacy duty scheduling data in Türkiye evaluate the mechanism under alternative geographic and preference specifications.",
+    "abstract": "We study many-to-many matching with exact agent demands, exact slot quotas, and spatial composition constraints represented by a partition of agents into proximity clusters. At most one agent from each cluster may be assigned to a given slot. Although this local constraint is matroidal and induces a substitutable fixed-priority choice rule, exact demands and quotas couple completion globally across slots. Consequently, Deferred Acceptance and myopic Serial Dictatorship may terminate without a complete allocation even when one exists. In the quota-two benchmark, Deferred Acceptance has a uniform complete-feasibility guarantee if and only if there are exactly two clusters or the spatial constraint is nonbinding because every cluster is a singleton. We characterize completable partial allocations through cluster-based Hall inequalities and implement the resulting completion test using maximum flow. Building on this characterization, we introduce a completion-preserving priority mechanism that, under heterogeneous demands and capacities, produces a feasible and Pareto-efficient allocation satisfying replica-level no justified-envy under the layered priority order. It also satisfies replica-level pairwise stability when every slot has quota two. Simulations calibrated with administrative data on pharmacy duty schedules in Türkiye show that the mechanism clears the market in every reported scenario and improves model-implied rank outcomes under the generated preference profiles. These conclusions are robust to alternative cluster constructions, geographic specifications, and preference calibrations.",
+    "href": "/research/spatial-constraints.pdf",
+    "themes": [
+      "Matching",
+      "Spatial constraints"
+    ]
   },
   {
+    "id": "worst-rank",
     "title": "The Worst-Rank Frontier in Discrete Resource Allocation: No-Envy, Ordinal Efficiency, and Probabilistic Serial",
     "authors": "with Özgür Yılmaz",
-    "meta": "Submitted",
+    "category": "working-paper",
+    "status": "Submitted",
+    "featured": true,
     "summary": "We characterize the smallest worst rank compatible with no-envy and ordinal efficiency, derive sharp rank-loss bounds, and show that Probabilistic Serial can lie far from the optimal no-envy, efficiency, and joint frontiers.",
-    "href": "/research/worst-rank-frontier.pdf"
+    "longSummary": "We study worst-rank guarantees in fractional allocation under no-envy and ordinal efficiency. The paper characterizes fixed-rank no-envy feasibility, derives sharp rank-loss bounds, and measures how far Probabilistic Serial can lie from the optimal ordinal-efficiency, no-envy, and joint frontiers.",
+    "abstract": "We study the smallest worst rank attainable in fractional allocation under no-envy and ordinal efficiency. The criterion bounds the rank of each object assigned with positive quantity. Pareto efficiency alone does not increase the minimum feasible rank. Under equal claims and arbitrary capacities, we characterize fixed-rank no-envy feasibility by an exact obstruction-and-recovery procedure and derive a direct rank-two system. Under unit claims and unit capacities, whenever no-envy is feasible at rank two, it is jointly feasible with ordinal efficiency at that rank. In this domain with n agents and n objects, the sharp worst-case rank costs of no-envy relative to feasibility and of efficiency conditional on no-envy are max{0, n−2} and max{0, n−3}, respectively, while their instance-wise sum never exceeds max{0, n−2}. For each n ≥ 3, Probabilistic Serial can exceed each of the optimal ordinal-efficiency, no-envy, and joint frontiers by n−2 ranks and by a factor of n/2; one family attains all six bounds. A heterogeneous-claim formulation based on feasible truncation explains why equal claims yield linear no-envy restrictions, whereas unequal claims can generate nonconvexity. All rank-loss bounds concern positive support, not quantity-weighted welfare.",
+    "href": "/research/worst-rank-frontier.pdf",
+    "themes": [
+      "Random assignment",
+      "Fairness"
+    ]
   },
   {
+    "id": "affirmative-action",
     "title": "Equitable Affirmative Action in School Choice",
     "authors": "with Özgür Yılmaz",
-    "meta": "Work in Progress",
+    "category": "work-in-progress",
+    "status": "Work in Progress",
+    "featured": true,
     "summary": "Ongoing work on the design of equitable affirmative-action policies in school choice.",
-    "href": null
+    "longSummary": "This project studies how affirmative-action objectives can be incorporated into school-choice mechanisms while accounting for priorities, allocation constraints, and equity considerations.",
+    "abstract": "This study asks when priority-respecting random allocations across unit-capacity categories admit a Lorenz-greatest utility profile. Each category has a strict priority order, and an agent’s utility is her total probability of receiving a unit. We first introduce cutoff sets and show that they characterize deterministic priority-respecting allocations. Comparing a random allocation with a positive-weight deterministic component of its decomposition yields a perturbation,whose two cardinalities record the cutoff agents who lose full utility and the non-cutoff agents who gain positive utility. We prove that, if an egalitarian allocation exists, every perturbation of that allocation is cardinality-greatest. Conversely, a cardinality-greatest perturbation is suﬀicient for existence when its associated equalized utility target satisfies a fractional Hall condition, which we call flow-equalizability. Finally, we study a baseline-ordering domain with one open category and nonempty, partitioned reserve-beneficiary classes. In this domain, a cardinality-greatest flow-equalizable perturbation can always be constructed, and hence an egalitarian priority-respecting allocation always exists.",
+    "href": null,
+    "themes": [
+      "School choice",
+      "Fairness"
+    ]
   },
   {
+    "id": "weighted-sum",
     "title": "Is the Weighted Sum a Meritocratic Method? A Mechanism Design Approach to Research Assistant Recruitment in Turkey",
     "authors": null,
-    "meta": "Work in Progress",
-    "summary": "A mechanism-design perspective on weighted-score recruitment, asking when aggregate scoring can meaningfully be interpreted as meritocratic.",
-    "href": null
+    "category": "work-in-progress",
+    "status": "Work in Progress",
+    "featured": false,
+    "summary": "A mechanism-design perspective on weighted-score recruitment and the relationship between aggregate scoring rules and meritocratic selection.",
+    "longSummary": "This project examines weighted-score recruitment rules through a mechanism-design lens, focusing on how the aggregation of multiple evaluation dimensions affects selection and the interpretation of merit in research-assistant recruitment in Turkey.",
+    "abstract": null,
+    "href": null,
+    "themes": [
+      "Mechanism design",
+      "Selection"
+    ]
   }
 ]

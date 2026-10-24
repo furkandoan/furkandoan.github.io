@@ -1,0 +1,79 @@
+---
+import "../styles/final.css";
+import academic from "../data/academic.json";
+import { localUrl } from "../lib/urls";
+interface Props {
+  title?: string;
+  description?: string;
+  page?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+  articles?: Record<string, unknown>[];
+}
+const {
+  title = "Furkan Doğan — Economist",
+  description = "Furkan Doğan is an economist working on market design, matching theory, and mechanism design. Research, academic projects, teaching, and CV.",
+  page = "home", canonicalPath = "", noindex = false, articles = []
+} = Astro.props;
+const canonical = new URL(localUrl(canonicalPath), Astro.site);
+const home = new URL(localUrl(), Astro.site).href;
+const person = {
+  "@type": "Person", "@id": `${home}#person`, name: academic.name, url: home,
+  jobTitle: academic.position, email: `mailto:${academic.email}`,
+  affiliation: {"@type": "CollegeOrUniversity", name: academic.institution},
+  alumniOf: academic.education.map(({institution}) => ({"@type":"CollegeOrUniversity", name:institution})),
+  knowsAbout: ["Microeconomic theory", "Market design", "Matching theory", "Mechanism design"]
+};
+const schema = {"@context":"https://schema.org", "@graph":[person, ...articles]};
+const nav = [
+  {label:"Research", href:"research/", key:"research"},
+  {label:"Projects", href:"#projects"},
+  {label:"Conferences", href:"#talks"},
+  {label:"Teaching", href:"teaching/", key:"teaching"},
+  {label:"CV ↗", href:"furkan-dogan-cv.pdf"},
+  {label:"Contact", href:"#contact"}
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" type="image/svg+xml" href={localUrl("favicon.svg")} />
+    <meta name="theme-color" content="#f8f8f5" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Furkan Doğan" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href={localUrl()} aria-label="Furkan Doğan — Home">FD<span aria-hidden="true">.</span></a>
+        <nav aria-label="Primary navigation">
+          {nav.map(item => <a href={localUrl(item.href)} aria-current={item.key === page ? "page" : undefined}>{item.label}</a>)}
+        </nav>
+      </header>
+      <main id="main" tabindex="-1"><slot /></main>
+      <footer class="site-footer">
+        <span>© {new Date().getFullYear()} Furkan Doğan</span>
+        <div class="footer-links">
+          <a href={localUrl("#about")}>About</a>
+          <a href={localUrl("furkan-dogan-cv.pdf")} download="Furkan-Dogan-CV.pdf">Download CV <span aria-hidden="true">↓</span></a>
+          <a href={`mailto:${academic.email}`}>Email</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

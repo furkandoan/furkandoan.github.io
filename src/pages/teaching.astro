@@ -1,0 +1,40 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import academic from "../data/academic.json";
+import materialsData from "../data/teaching-materials.json";
+import { localUrl } from "../lib/urls";
+type Material = { title: string; href: string; format?: string; note?: string };
+type CourseMaterials = { id: string; course: string; materials: Record<string, Material[]> };
+const categories = [{id:"slides", title:"Slides"}, {id:"exams", title:"Exams"}, {id:"other", title:"Other materials"}];
+const courses = (materialsData as CourseMaterials[]).map(course => ({
+  ...course,
+  instruction: academic.teaching.find(entry => entry.role === "Course Instructor" && entry.courses.includes(course.course))
+})).filter(course => course.instruction);
+---
+<SiteLayout title="Teaching — Furkan Doğan" description="Course instruction and teaching materials for Math Camp and High School Economics Camp at Koç University." page="teaching" canonicalPath="teaching/">
+  <section class="subpage-hero">
+    <div><p class="eyebrow">Course instruction</p><h1>Teaching</h1>
+      <nav class="course-index" aria-label="Courses">{courses.map(course => <a href={`#${course.id}`}>{course.course}<span aria-hidden="true">↓</span></a>)}</nav>
+    </div>
+  </section>
+  {courses.map(course => (
+    <section class="teaching-course" id={course.id} aria-labelledby={`${course.id}-heading`}>
+      <div class="course-context"><p>{course.instruction!.institution}</p><p>{course.instruction!.dates}</p></div>
+      <div class="course-content">
+        <h2 id={`${course.id}-heading`}>{course.course}</h2>
+        <p class="course-role">{course.instruction!.role}</p>
+        <div class="course-materials">
+          {categories.map(category => <section class="material-group" aria-labelledby={`${course.id}-${category.id}`}>
+            <h3 id={`${course.id}-${category.id}`}>{category.title}</h3>
+            {course.materials[category.id].length ? <ul>
+              {course.materials[category.id].map(material => <li>
+                <a href={localUrl(material.href)}><span>{material.title}</span><span class="material-format">{material.format || "File"} <span aria-hidden="true">↗</span></span></a>
+                {material.note && <p class="material-note">{material.note}</p>}
+              </li>)}
+            </ul> : <p class="materials-empty">No files posted yet.</p>}
+          </section>)}
+        </div>
+      </div>
+    </section>
+  ))}
+</SiteLayout>

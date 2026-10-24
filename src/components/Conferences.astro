@@ -1,0 +1,107 @@
+---
+import academic from "../data/academic.json";
+import research from "../data/research.json";
+import { localUrl } from "../lib/urls";
+---
+<section class="section talks-section" id="talks" aria-labelledby="talks-heading">
+  <div class="section-head section-head-clean">
+    <h2 class="section-kicker" id="talks-heading">Talks & conferences</h2>
+  </div>
+  <div class="conference-body">
+    <div class="talk-map-background" aria-hidden="true">
+      <div class="world-map-mount" id="worldMapMount" data-src={localUrl("images/world-map.svg")}></div>
+      <p class="map-caption" id="mapCaption">Select a location to highlight its country.</p>
+    </div>
+    <div class="talks-layout"><div class="talks-list">
+      {academic.conferences.map(talk => (
+        <article class="talk-entry" data-talk={talk.id} data-country={talk.country} data-caption={`${talk.city}, ${talk.countryName} · ${talk.date}`}>
+          <div class="talk-main">
+            <h3 class="talk-title-main">{talk.title}</h3>
+            {talk.fullTitle && <p class="conference-name">{talk.fullTitle}</p>}
+            <p class="talk-paper">{research.find(paper => paper.id === talk.paperId)?.title}</p>
+            <p class="talk-kind">{talk.kind}</p>
+          </div>
+          <div class="talk-meta">
+            <time datetime={talk.datetime}>{talk.date}</time>
+            <button type="button" class="talk-location" aria-pressed="false" aria-label={`${talk.city}, ${talk.countryName}: highlight country on the map`}>{talk.city}, {talk.country === "gb" ? "UK" : talk.country.toUpperCase()} <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+      ))}
+    </div></div>
+  </div>
+  <noscript><p class="map-fallback">The interactive map requires JavaScript. All presentation details and locations are listed above.</p></noscript>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>("#talks");
+  const mount = document.querySelector<HTMLElement>("#worldMapMount");
+  const caption = document.querySelector<HTMLElement>("#mapCaption");
+  const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-talk]"));
+  let svg: SVGSVGElement | null = null;
+  let hovered: HTMLElement | null = null;
+  let focused: HTMLElement | null = null;
+  let selected: HTMLElement | null = null;
+  let loading: Promise<void> | undefined;
+  let failed = false;
+  const countries = new Map<string, SVGElement[]>();
+  const update = () => {
+    const active = hovered || focused || selected;
+    if (mount) mount.dataset.activeCountry = active?.dataset.country || "";
+    if (caption) caption.textContent = failed ? "Map unavailable. Locations are listed with each presentation." : active?.dataset.caption || "Select a location to highlight its country.";
+    rows.forEach(row => {
+      row.classList.toggle("is-active", row === active);
+      row.querySelector("button")?.setAttribute("aria-pressed", String(row === selected));
+    });
+    countries.forEach((elements, code) => elements.forEach(element => {
+      if (code === active?.dataset.country) {
+        element.style.setProperty("fill", "var(--accent)", "important");
+        element.style.setProperty("stroke", "var(--accent)", "important");
+        element.style.setProperty("opacity", "1", "important");
+      } else {
+        ["fill", "stroke", "opacity"].forEach(property => element.style.removeProperty(property));
+      }
+    }));
+  };
+  const load = () => loading ||= (async () => {
+    if (!mount?.dataset.src) return;
+    try {
+      const response = await fetch(mount.dataset.src);
+      if (!response.ok) throw new Error("Map unavailable");
+      const parsed = new DOMParser().parseFromString(await response.text(), "image/svg+xml");
+      const source = parsed.querySelector("svg");
+      if (!source || parsed.querySelector("parsererror")) throw new Error("Invalid map");
+      svg = document.importNode(source, true);
+      svg.removeAttribute("width"); svg.removeAttribute("height");
+      svg.setAttribute("viewBox", "0 0 2754 1180");
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      svg.setAttribute("aria-hidden", "true");
+      svg.querySelectorAll<SVGElement>("#aq, #AQ, .aq, .AQ").forEach(element => element.style.setProperty("display", "none", "important"));
+      const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+      style.textContent = ".oceanxx,.oceanxx *{fill:transparent!important;stroke:none!important}";
+      svg.prepend(style);
+      mount.replaceChildren(svg);
+      ["fr", "gb", "tr"].forEach(code => countries.set(code, Array.from(svg!.querySelectorAll<SVGElement>(`#${code}, #${code} *`))));
+      mount.dataset.loaded = "true";
+      update();
+    } catch {
+      failed = true;
+      update();
+    }
+  })();
+  rows.forEach(row => {
+    row.addEventListener("pointerenter", event => { if (event.pointerType !== "touch") { hovered = row; update(); } });
+    row.addEventListener("pointerleave", () => { hovered = null; update(); });
+    row.addEventListener("focusin", () => { hovered = null; focused = row; void load(); update(); });
+    row.addEventListener("focusout", event => { if (!row.contains(event.relatedTarget as Node)) { focused = null; update(); } });
+    row.querySelector("button")?.addEventListener("click", () => { selected = selected === row ? null : row; void load(); update(); });
+  });
+  section?.addEventListener("keydown", event => {
+    if (event.key === "Escape") { selected = null; hovered = null; focused = null; update(); }
+  });
+  if (section && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { void load(); observer.disconnect(); }
+    }, {rootMargin:"300px"});
+    observer.observe(section);
+  } else { void load(); }
+</script>

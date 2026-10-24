@@ -1,0 +1,81 @@
+---
+import academic from "../data/academic.json";
+const periods = academic.projects.map(project => {
+  const [start, end] = project.dates.split("–").map(Number);
+  return { ...project, start, end };
+}).sort((a, b) => a.start - b.start);
+const lastYear = Math.max(...periods.map(project => project.end));
+---
+<aside class="project-timeline" aria-labelledby="timeline-heading" data-active="all">
+  <p class="visual-label" id="timeline-heading">Projects over the years</p>
+  <div class="timeline-journey" role="group" aria-label="Highlight a research project">
+    <div class="timeline-spine" aria-hidden="true"><span></span></div>
+    {periods.map((project, index) => <div class:list={["timeline-stop", index % 2 === 0 ? "stop-right" : "stop-left"]} data-period={project.id} style={`--stop-delay:${350 + index * 450}ms`}>
+      <button type="button" data-project-key={project.id} aria-pressed="false" aria-controls={project.id} aria-label={`${project.programme} ${project.dates} ${project.role}`}>
+        <span class="timeline-branch" aria-hidden="true"></span>
+        <span class="timeline-medallion" aria-hidden="true">
+          {project.id === "pharmacy-shifts" ?
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 10H20M8 3V7M16 3V7M8 13H10M14 13H16M8 16H10M14 16H16"/></svg> :
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 6H19M5 12H19M5 18H19"/><circle cx="9" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="11" cy="18" r="2"/></svg>}
+        </span>
+        <span class="timeline-year">{project.start}</span>
+        <span class="timeline-programme">{project.programme}</span>
+        <span class="timeline-key-role">{project.role}</span>
+        <span class="timeline-period-label">{project.dates}</span>
+      </button>
+    </div>)}
+    <div class="timeline-horizon"><span>{lastYear}</span><small>Project horizon</small></div>
+  </div>
+</aside>
+
+<script>
+  const timeline = document.querySelector<HTMLElement>(".project-timeline");
+  if (timeline) {
+    const section = timeline.closest("section")!;
+    const rows = [...section.querySelectorAll<HTMLElement>("[data-project]")];
+    const keys = [...timeline.querySelectorAll<HTMLButtonElement>("[data-project-key]")];
+    let selected = "all";
+    let hovered: string | null = null;
+    let focused: string | null = null;
+    const update = () => {
+      const active = hovered || focused || selected;
+      timeline.dataset.active = active;
+      rows.forEach(row => row.classList.toggle("is-highlighted", row.dataset.project === active));
+      timeline.querySelectorAll<HTMLElement>("[data-period]").forEach(period => {
+        period.classList.toggle("is-highlighted", period.dataset.period === active);
+      });
+      keys.forEach(key => {
+        key.setAttribute("aria-pressed", String(key.dataset.projectKey === selected));
+        key.classList.toggle("is-highlighted", key.dataset.projectKey === active);
+      });
+    };
+    [...rows, ...keys].forEach(element => {
+      const id = element.dataset.project || element.dataset.projectKey!;
+      element.addEventListener("pointerenter", event => {
+        if (event.pointerType !== "touch") { hovered = id; update(); }
+      });
+      element.addEventListener("pointerleave", () => { hovered = null; update(); });
+      element.addEventListener("focusin", () => { focused = id; hovered = null; update(); });
+      element.addEventListener("focusout", event => {
+        if (!element.contains(event.relatedTarget as Node)) { focused = null; update(); }
+      });
+    });
+    keys.forEach(key => key.addEventListener("click", () => {
+      selected = selected === key.dataset.projectKey ? "all" : key.dataset.projectKey!;
+      update();
+    }));
+    section.addEventListener("keydown", event => {
+      if (event.key === "Escape") { selected = "all"; hovered = null; focused = null; update(); }
+    });
+    // Draw once on arrival; no perpetual motion or fabricated progress indicator.
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          timeline.classList.add("is-visible");
+          observer.disconnect();
+        }
+      }, { threshold: 0.25 });
+      observer.observe(timeline);
+    }
+  }
+</script>

@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../dist/", import.meta.url));
 const port = Number(process.env.PORT || 4322);
-const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".woff2": "font/woff2", ".txt": "text/plain; charset=utf-8" };
+const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".woff2": "font/woff2", ".png": "image/png", ".jpg": "image/jpeg", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8" };
 try { await stat(resolve(root, "index.html")); }
 catch { console.error("dist/index.html bulunamadı. Önce pnpm build çalıştırın."); process.exit(1); }
 const server = createServer(async (req, res) => {
@@ -13,8 +13,9 @@ const server = createServer(async (req, res) => {
     if (req.method !== "GET" && req.method !== "HEAD") { res.writeHead(405); res.end(); return; }
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
     if (pathname.split("/").some((part) => part.startsWith(".")) || pathname.includes("\\")) throw new Error("Invalid path");
-    const file = resolve(root, "." + pathname, pathname.endsWith("/") ? "index.html" : "");
+    let file = resolve(root, "." + pathname, pathname.endsWith("/") ? "index.html" : "");
     if (!file.startsWith(root.endsWith(sep) ? root : root + sep)) throw new Error("Invalid path");
+    if ((await stat(file)).isDirectory()) file = resolve(file, "index.html");
     const data = await readFile(file);
     res.writeHead(200, { "Content-Type": types[extname(file)] || "application/octet-stream", "X-Content-Type-Options": "nosniff", "Cache-Control": "no-cache" });
     res.end(req.method === "HEAD" ? undefined : data);

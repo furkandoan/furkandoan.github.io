@@ -1,0 +1,60 @@
+{
+  "name": "Furkan Doğan",
+  "email": "furkandoann@gmail.com",
+  "position": "Research and Teaching Assistant",
+  "institution": "Necmettin Erbakan University",
+  "education": [
+    {"id":"koc","institution":"Koç University","degree":"Ph.D. in Economics","dates":"2020–2026","thesis":"Three Essays on Allocation Problem with Discrete Resources","advisor":"Özgür Yılmaz"},
+    {"id":"sabanci","institution":"Sabancı University","degree":"M.A. in Economics","dates":"2017–2019","thesis":"On random object allocation","advisor":"Ahmet Alkan"},
+    {"id":"bogazici","institution":"Boğaziçi University","degree":"B.A. in Economics","dates":"2012–2017"}
+  ],
+  "projects": [
+    {
+      "id":"recruitment",
+      "title":"Is the Weighted Sum a Meritocratic Method?",
+      "subtitle":"A Mechanism Design Approach to Research Assistant Recruitment in Turkey",
+      "programme":"TÜBİTAK 1002-A",
+      "funding":"Short-Term R&D Funding Program",
+      "role":"Project Coordinator",
+      "dates":"2025–2026",
+      "question":"How do weighted scores and GPA normalization shape fairness and incentives in research-assistant recruitment?",
+      "approach":"A mechanism-design framework for comparing score aggregation and GPA normalization rules in terms of fairness, robustness, and manipulability.",
+      "contribution":"Developing the framework and evaluating alternative recruitment mechanisms against normative criteria for fair and manipulation-resistant selection.",
+      "paperId":"weighted-sum"
+    },
+    {
+      "id":"pharmacy-shifts",
+      "title":"An Allocation of Pharmacy Shifts",
+      "subtitle":"A Mechanism Design Approach",
+      "programme":"TÜBİTAK 1001",
+      "funding":"Research Project",
+      "role":"Scholar",
+      "dates":"2024–2026",
+      "question":"How can pharmacy duty schedules satisfy hard feasibility requirements while accounting for fairness and spatial distribution?",
+      "approach":"Matching theory and mechanism design, combining theoretical analysis of feasible assignments with simulations using real-world scheduling data.",
+      "contribution":"Contributing to the characterization of feasible assignments, the design of implementable mechanisms, and simulation analysis.",
+      "paperId":"spatial-matching"
+    }
+  ],
+  "conferences": [
+    {"id":"paris","country":"fr","countryName":"France","city":"Paris","date":"July 2026","datetime":"2026-07","title":"MATCH-UP 2026","fullTitle":"8th International Workshop on Matching under Preferences","paperId":"spatial-matching","kind":"Poster presentation"},
+    {"id":"coventry","country":"gb","countryName":"United Kingdom","city":"Coventry","date":"May 2026","datetime":"2026-05","title":"14th Warwick Economics PhD Conference","paperId":"weighted-sum","kind":"Conference presentation"},
+    {"id":"istanbul","country":"tr","countryName":"Türkiye","city":"Istanbul","date":"May 2026","datetime":"2026-05","title":"SMTEA 2026","fullTitle":"Second Spring Meeting of the Turkish Economic Association","paperId":"weighted-sum","kind":"Conference presentation"},
+    {"id":"ankara","country":"tr","countryName":"Türkiye","city":"Ankara","date":"October 2024","datetime":"2024-10","title":"International Symposium on Measurement, Selection and Placement","paperId":"affirmative-action","kind":"Conference presentation"}
+  ],
+  "teaching": [
+    {"institution":"Koç University","role":"Course Instructor","dates":"2023–2025","courses":["Math Camp for M.A. and Ph.D. students","High School Economics Camp"]},
+    {"institution":"Necmettin Erbakan University","role":"Research and Teaching Assistant","dates":"2023–Present","courses":["Microeconomics"]},
+    {"institution":"Istanbul Bilgi University","role":"Research and Teaching Assistant","dates":"2021–2023","courses":["Microeconomics","Managerial Economics","Math Camp — LSE Honors Programme"]},
+    {"institution":"Koç University","role":"Teaching Assistant","dates":"2020–2024","courses":["Economic Development","Public Finance","Banking and Regulation","Public Economics"]},
+    {"institution":"Sabancı University","role":"Teaching Assistant","dates":"2017–2019","courses":["Microeconomics","Matching Markets","Games and Strategies","Macroeconomics"]},
+    {"institution":"Istanbul Sabahattin Zaim University","role":"Teaching Assistant","dates":"2017–2020","courses":["Mathematics"]}
+  ],
+  "awards": [
+    {"title":"Institute Social PhD Research Grant","dates":"2026–Present"},
+    {"title":"TÜBİTAK 2214/A International Research Fellowship","dates":"2023–2024","note":"Awarded for a proposed research visit to Boston College, hosted by Utku Ünver; visit not undertaken."},
+    {"title":"TÜBİTAK 2211/A National Ph.D. Scholarship","dates":"2020–2024"},
+    {"title":"Koç University Full Ph.D. Scholarship","dates":"2020–2026"},
+    {"title":"Sabancı University Full M.A. Scholarship","dates":"2017–2019"}
+  ]
+}

@@ -1,0 +1,60 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import research from "../data/research.json";
+import academic from "../data/academic.json";
+import { localUrl } from "../lib/urls";
+const groups = [
+  {name:"Forthcoming", category:"forthcoming"},
+  {name:"Working papers", category:"working-paper"},
+  {name:"Work in progress", category:"work-in-progress"}
+];
+const home = new URL(localUrl(), Astro.site).href;
+const articles = research.filter(paper => paper.href).map(paper => ({
+  "@type":"ScholarlyArticle",
+  "@id":new URL(localUrl(`research/#${paper.id}`), Astro.site).href,
+  name:paper.title,
+  author:[{"@id":`${home}#person`}, ...(paper.authors?.replace(/^with /,"").split(/, | and /).map(name => ({"@type":"Person", name})) || [])],
+  url:new URL(localUrl(`research/#${paper.id}`), Astro.site).href,
+  encoding:{"@type":"MediaObject", contentUrl:new URL(localUrl(paper.href!), Astro.site).href, encodingFormat:"application/pdf"},
+  creativeWorkStatus:paper.status,
+  ...(paper.journal ? {isPartOf:{"@type":"Periodical", name:paper.journal}} : {}),
+  keywords:paper.themes.join(", ")
+}));
+---
+<SiteLayout title="Research — Furkan Doğan" description="Forthcoming publications, working papers, and ongoing research by Furkan Doğan on matching, discrete resource allocation, random assignment, and school choice." page="research" canonicalPath="research/" articles={articles}>
+  <section class="subpage-hero">
+    <div>
+      <p class="eyebrow">Microeconomic theory</p>
+      <h1>Research</h1>
+      <p class="subpage-intro">I study the design and performance of allocation mechanisms when preferences, priorities, fairness requirements, and feasibility constraints interact.</p>
+    </div>
+    <ul class="research-domains" aria-label="Research areas"><li>Market design</li><li>Matching theory</li><li>Mechanism design</li><li>Random assignment</li></ul>
+  </section>
+  {groups.filter(group => research.some(paper => paper.category === group.category)).map(group => (
+    <section class="research-category" aria-labelledby={group.category}>
+      <div class="category-side"><h2 id={group.category}>{group.name}</h2></div>
+      <div class="full-research-list">
+        {research.filter(paper => paper.category === group.category).map(paper => (
+          <article class="research-entry" id={paper.id}>
+            <p class="entry-label">{paper.jobMarketPaper ? "Job market paper · " : ""}{paper.status}</p>
+            <h3>{paper.title}</h3>
+            {paper.authors && <p class="paper-authors">{paper.authors}</p>}
+            {paper.journal && <p class="publication-venue">{paper.journal}</p>}
+            <p class="research-summary">{paper.summary}</p>
+            <div class="paper-actions">
+              {paper.href && <a class="text-link" href={localUrl(paper.href)}>Read paper <span aria-hidden="true">↗</span><span class="file-kind">PDF</span></a>}
+              {academic.projects.filter(project => project.paperId === paper.id).map(project => <a class="text-link" href={localUrl(`#${project.id}`)}>Related project <span aria-hidden="true">→</span></a>)}
+            </div>
+            {paper.abstract && paper.href && (
+              <details class="paper-details full-abstract">
+                <summary>Abstract<span class="sr-only">: {paper.title}</span></summary>
+                <p>{paper.abstract}</p>
+              </details>
+            )}
+            <ul class="paper-themes" aria-label="Research themes">{paper.themes.map(theme => <li>{theme}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
+</SiteLayout>
